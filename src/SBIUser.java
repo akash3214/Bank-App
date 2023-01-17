@@ -1,13 +1,31 @@
 import java.util.Objects;
 import java.util.UUID;
 
-public class SBIUser implements BankInterface{
-    //attributes
+public class SBIUser implements BankInterface {
+
+    private String AccountNo;
     private String name;
-    private String accountsNo;
-    private double balance;
+    private int balance;
     private String password;
-    private static double rateOfInterest;
+    private float rateOfInterest;
+
+    //constructor
+    public SBIUser(String name, int balance,String password) {
+        this.name = name;
+        this.balance = balance;
+        this.password = password;
+
+        this.AccountNo = String.valueOf(UUID.randomUUID());
+        this.rateOfInterest = 6.6f;
+    }
+
+    public String getAccountNo() {
+        return AccountNo;
+    }
+
+    public void setAccountNo(String accountNo) {
+        AccountNo = accountNo;
+    }
 
     public String getName() {
         return name;
@@ -17,19 +35,11 @@ public class SBIUser implements BankInterface{
         this.name = name;
     }
 
-    public String getAccountsNo() {
-        return accountsNo;
-    }
-
-    public void setAccountsNo(String accountsNo) {
-        this.accountsNo = accountsNo;
-    }
-
-    public double getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
     }
 
@@ -41,49 +51,49 @@ public class SBIUser implements BankInterface{
         this.password = password;
     }
 
-    public static double getRateOfInterest() {
+    public float getRateOfInterest() {
         return rateOfInterest;
     }
 
-    public static void setRateOfInterest(double rateOfInterest) {
-        SBIUser.rateOfInterest = rateOfInterest;
-    }
-
-    public SBIUser(String name, double balance, String password) {
-        this.name = name;
-        this.balance = balance;
-        this.password = password;
-        this.rateOfInterest = 6.5;
-        this.accountsNo = String.valueOf(UUID.randomUUID());
+    public void setRateOfInterest(float rateOfInterest) {
+        this.rateOfInterest = rateOfInterest;
     }
 
     @Override
-    public double checkBalance() {
+    public int checkBalance() {
         return balance;
     }
 
     @Override
-    public String addMoney(int amount) {
-        balance = balance+amount;
-        return "Your new balance is: "+balance;
+    public String addMoney(int money) {
+        balance = balance + money;
+        return "Successfully added money "+money + " you new balance is "+balance;
+
     }
 
     @Override
-    public String withdrawMoney(int amount, String enteredpassword) {
-        if(Objects.equals(password, enteredpassword)){
-            if(amount>balance){
-                return "Insufficient Balance";
-            }else{
-                balance = balance-amount;
-                return "Your current balance is: "+balance;
+    public String withDrawMoney(int money,String enteredPassword) {
+
+
+        if(Objects.equals(enteredPassword, password)){
+
+            if(money>balance){
+                return "Sorry bro! But less money";
             }
+            else{
+                this.balance = this.balance - money;
+                return "Money has been withdrawn "+money;
+            }
+
         }else{
-            return "Wrong Password";
+            return "Wrong password";
         }
+
     }
 
     @Override
-    public double calculateInterest(int years) {
-        return (rateOfInterest*balance)/years;
+    public float calculateInterest(int years) {
+        float interest = balance*years*rateOfInterest/100;
+        return interest;
     }
 }

@@ -1,30 +1,40 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter your name, password, balance to create an account");
 
-        //create user
+        System.out.println("Enter the name and initial balance and password ");
         String name = sc.nextLine();
-        String password = sc.nextLine();
-        double balance = sc.nextDouble();
-        SBIUser user = new SBIUser(name, balance, password);
+        int balance = sc.nextInt();
+        String password = sc.next();
 
-        //add amount
-        String message = user.addMoney(100000);
-        System.out.println(message);
+        //Creation of the account
+        SBIUser acc1 = new SBIUser(name,balance,password);
+        System.out.println("The account of new SBI Account is"+acc1.getAccountNo());
 
-        //withdraw money
-        System.out.println("Enter amount you want to withdraw");
+        //add money
+        System.out.println("Enter the money that you want to add ");
         int money = sc.nextInt();
-        sc.nextLine();
-        System.out.println("Enter your password");
-        String pass = sc.nextLine();
-        System.out.println(user.withdrawMoney(money, pass));
+        acc1.addMoney(money);
 
-        //calculate interest
-        System.out.println("Rate of Interest: "+user.calculateInterest(10));
+        //Check balance
+        int newBalance = acc1.getBalance();
+        System.out.println("The new balance is "+newBalance);
+
+        //Withdraw money
+        System.out.println("Withdraw money");
+        int amt = sc.nextInt();
+        System.out.println("Enter the password");
+        String enteredPassword = sc.next();
+        String result = acc1.withDrawMoney(amt,enteredPassword);
+        System.out.println(result);
+
+        // interest
+        System.out.println("The interest for 10 years on "+acc1.getBalance()+" Rs will be: "+acc1.calculateInterest(10));
+
+        System.out.println("This is a change");
+
     }
 }

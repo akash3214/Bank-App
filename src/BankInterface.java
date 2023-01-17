@@ -1,6 +1,10 @@
 public interface BankInterface {
-    double checkBalance();
-    String addMoney(int amount);
-    String withdrawMoney(int amount, String password);
-    double calculateInterest(int years);
+
+    int checkBalance();
+
+    String addMoney(int money);
+
+    String withDrawMoney(int money,String password);
+
+    float calculateInterest(int years);
 }
